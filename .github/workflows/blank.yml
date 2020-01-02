@@ -16,8 +16,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Hello Secrets
-      run: echo ${{ secrets.TEST_SECRET }}
+    #- name: Hello Secrets
+    #  run: echo ${{ secrets.TEST_SECRET }}
     - name: Run a one-line script
       run: echo Hello, world!
     - name: Run a multi-line script
