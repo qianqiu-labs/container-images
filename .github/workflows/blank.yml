@@ -1,6 +1,13 @@
 name: CI
 
-on: [push]
+on: 
+  push:
+    branches:
+      - master
+    tags:
+      - v1
+    paths:
+      - 'test/*'
 
 jobs:
   build:
@@ -9,9 +16,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - name: Hello Secrets
+      env:
+        TEST_SECRET: {{ $Secrets.TEST_SECRET }}
     - name: Run a one-line script
       run: echo Hello, world!
     - name: Run a multi-line script
       run: |
         echo Add other actions to build,
         echo test, and deploy your project.
+        echo $TEST_SECRET
