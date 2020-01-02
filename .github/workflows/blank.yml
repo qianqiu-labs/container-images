@@ -1,13 +1,6 @@
 name: CI
 
-on: 
-  push:
-    branches:
-      - master
-    tags:
-      - v1
-    paths:
-      - 'test/*'
+on: ['push']
 
 jobs:
   build:
