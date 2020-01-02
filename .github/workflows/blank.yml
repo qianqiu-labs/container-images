@@ -18,7 +18,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Hello Secrets
       env:
-        TEST_SECRET: {{ $Secrets.TEST_SECRET }}
+        TEST_SECRET: ${{ Secrets.TEST_SECRET }}
       run: echo $TEST_SECRET
     - name: Run a one-line script
       run: echo Hello, world!
