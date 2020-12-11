@@ -37,7 +37,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./k8s
-          file: ./k8s/kube-controller-manager.Dockerfile
+          file: ./kube-controller-manager.Dockerfile
           platforms: linux/amd64,linux/arm64,linux/386
           push: true
           tags: yishuida/kube-controller-manager:v1.19.4
