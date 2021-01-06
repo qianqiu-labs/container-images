@@ -12,6 +12,7 @@ on:
       - "release-*"
     paths:
       - ci-executor/ci-executor.Dockerfile
+      - .github/workflow/ci-executor.yml
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
