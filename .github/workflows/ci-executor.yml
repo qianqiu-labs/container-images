@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: docker build & push nginx
+name: docker build & push ci-executor
 
 # Controls when the action will run. 
 on:
@@ -11,7 +11,7 @@ on:
       - "featrue-*"
       - "release-*"
     paths:
-      - nginx/nginx.Dockerfile
+      - ci-executor/ci-executor.Dockerfile
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -40,9 +40,8 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./nginx/nginx.Dockerfile
+          file: ./ci-executor/ci-executor.Dockerfile
           platforms: linux/amd64,linux/arm64,linux/386
           push: true
           tags: |
-            yishuida/nginx:1.19.0-alpine
-            yishuida/nginx:latest
+            yishuida/ci-executor:latest

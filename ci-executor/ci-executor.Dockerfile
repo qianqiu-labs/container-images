@@ -1,6 +1,7 @@
 
 FROM gcr.io/kaniko-project/executor:v0.13.0 AS kaniko
-FROM openjdk:8-jdk
+
+FROM maven:3-jdk-8-alpine
 
 ENV LANG=C.UTF-8 \
     TZ="Asia/Shanghai" \
@@ -10,8 +11,7 @@ ENV LANG=C.UTF-8 \
     HELM_VERSION=v3.4.0 \
     HELM_PUSH_VERSION=v0.9.0
 
-COPY --from=kaniko /kaniko /kaniko 
-
+COPY --from=kaniko /kaniko/executor /usr/bin/kaniko
 
 # install docker 
 RUN set -eux; \
@@ -43,13 +43,14 @@ RUN set -eux; \
 	rm docker.tgz; \
 	\
 	dockerd --version; \
-	docker --version; \
-    ln -s /kaniko/executor /kaniko/kaniko; \
+	docker --version;
+
+RUN ln -s /kaniko/executor /kaniko/kaniko; \
     set -eux; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
-# utilities for keeping Debian and OpenJDK CA certificates in sync
-		ca-certificates p11-kit jq git npm yarn \
+    # utilities for keeping Debian and OpenJDK CA certificates in sync
+		ca-certificates p11-kit jq git npm yarn xz unzip xmlstarlet \
 	; \
 	rm -rf /var/lib/apt/lists/* && \
     wget -qO /usr/bin/yq "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_${arch}" && \
@@ -59,5 +60,4 @@ RUN set -eux; \
     tar xzf "/tmp/helm-${HELM_VERSION}-linux-${arch}.tar.gz" -C /tmp && \
     mv /tmp/linux-${dpkgArch}/helm /usr/bin/helm && \
     rm -r /tmp/* &&  \
-    helm plugin install --version $HELM_PUSH_VERSION https://github.com/chartmuseum/helm-push && \
-    npm install -g typescript@3.6.3
+    helm plugin install --version $HELM_PUSH_VERSION https://github.com/chartmuseum/helm-push

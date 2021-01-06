@@ -2,9 +2,6 @@
 
 name: docker build & push kube-controller-manager
 
-author: Vista Yih
-
-description:
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
