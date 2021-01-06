@@ -13,47 +13,14 @@ ENV LANG=C.UTF-8 \
 
 COPY --from=kaniko /kaniko/executor /usr/bin/kaniko
 
-# install docker
-RUN set -eux; \
-	\
-	arch="$(uname -m)"; \
-	case "$arch" in \
-		'x86_64') \
-			url='https://download.docker.com/linux/static/stable/x86_64/docker-19.03.14.tgz'; \
-			;; \
-		'armhf') \
-			url='https://download.docker.com/linux/static/stable/armel/docker-19.03.14.tgz'; \
-			;; \
-		'armv7') \
-			url='https://download.docker.com/linux/static/stable/armhf/docker-19.03.14.tgz'; \
-			;; \
-		'aarch64') \
-			url='https://download.docker.com/linux/static/stable/aarch64/docker-19.03.14.tgz'; \
-			;; \
-		*) echo >&2 "error: unsupported architecture ($arch)"; exit 1 ;; \
-	esac; \
-	\
-	wget -O docker.tgz "$url"; \
-	\
-	tar --extract \
-		--file docker.tgz \
-		--strip-components 1 \
-		--directory /usr/local/bin/ \
-	; \
-	rm docker.tgz; \
-	\
-	dockerd --version; \
-	docker --version;
 
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories; \
-	apk update; \
+RUN apk update; \
 	apk --no-cache add  \
     # utilities for keeping Debian and OpenJDK CA certificates in sync
 		ca-certificates p11-kit jq git npm yarn xz unzip xmlstarlet dpkg dpkg-dev \
 	; \
 	apkArch="$(apk --print-arch)"; \
 	dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" && \
-	echo $dpkgArch && \
     wget -qO /usr/bin/yq "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_${dpkgArch}" && \
     chmod a+x /usr/bin/yq && \
     echo "https://get.helm.sh/helm-${HELM_VERSION}-linux-${dpkgArch}.tar.gz" && \
