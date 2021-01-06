@@ -13,6 +13,37 @@ ENV LANG=C.UTF-8 \
 
 COPY --from=kaniko /kaniko/executor /usr/bin/kaniko
 
+# install docker 
+RUN set -eux; \
+	\
+	arch="$(uname -m)"; \
+	case "$arch" in \
+		'x86_64') \
+			url='https://download.docker.com/linux/static/stable/x86_64/docker-19.03.14.tgz'; \
+			;; \
+		'armhf') \
+			url='https://download.docker.com/linux/static/stable/armel/docker-19.03.14.tgz'; \
+			;; \
+		'armv7') \
+			url='https://download.docker.com/linux/static/stable/armhf/docker-19.03.14.tgz'; \
+			;; \
+		'aarch64') \
+			url='https://download.docker.com/linux/static/stable/aarch64/docker-19.03.14.tgz'; \
+			;; \
+		*) echo >&2 "error: unsupported architecture ($arch)"; exit 1 ;; \
+	esac; \
+	\
+	wget -O docker.tgz "$url"; \
+	\
+	tar --extract \
+		--file docker.tgz \
+		--strip-components 1 \
+		--directory /usr/local/bin/ \
+	; \
+	rm docker.tgz; \
+	\
+	dockerd --version; \
+	docker --version;
 
 RUN apk update; \
 	apk --no-cache add  \
