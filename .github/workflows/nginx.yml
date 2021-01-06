@@ -41,7 +41,7 @@ jobs:
         with:
           context: .
           file: ./nginx/nginx.Dockerfile
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm/v6
           push: true
           tags: |
             yishuida/nginx:1.19.0-alpine
