@@ -10,4 +10,4 @@ RUN wget -q https://archive.apache.org/dist/skywalking/${SKYWALKING_VERSION}/apa
     sudo mkdir /skywalking; \
     sudo chown -R ${USER}:${USER} /skywalking; \
     cp -r apache-skywalking-apm-bin/agent /skywalking; \
-    rm -rf ./apache-skywalking-*; \
+    rm -rf ./apache-skywalking-*;
