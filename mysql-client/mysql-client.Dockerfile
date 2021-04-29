@@ -1,8 +1,10 @@
-FROM alpine:3.12
+FROM yishuida/alpine:3.12.3
 
 LABEL Dockerfile = "https://code.choerodon.com.cn/choerodon-infra/mysql-client.git"
+ARG MYSQL_CLIENT_VERSION=10.4.17-r1
 
-RUN adduser -h /home/mysql -s /bin/sh -u 1001 -D mysql-client && \
-    sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && \
-    apk add --no-cache mysql-client
-USER 1001
+COPY entrypoint.sh /home/default
+
+RUN sudo apk add --no-cache mysql-client=$MYSQL_CLIENT_VERSION && \
+        rm -rf /var/cache/apk/* && \
+        sudo chmod +x ./entrypoint.sh
