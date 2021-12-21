@@ -1,3 +1,0 @@
-# Codership Repository (Galera Cluster for MySQL)
-deb https://releases.galeracluster.com/mysql-wsrep-5.7/ubuntu bionic main
-deb https://releases.galeracluster.com/galera-3/ubuntu bionic main
