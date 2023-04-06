@@ -3,7 +3,7 @@
 # usage:
 # $ docker build --build-arg "USER=someuser" --tag test .
 # $ docker run --rm test
-FROM alpine:3.12.3
+FROM alpine:3.17.3
 
 ARG USER=default
 ENV HOME=/home/$USER USER_ID=1000
