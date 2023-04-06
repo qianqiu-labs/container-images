@@ -1,4 +1,4 @@
-name: alpine
+name: ci-executor
 on:
   schedule:
     - cron: '0 0 1 * *'
