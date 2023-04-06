@@ -7,7 +7,7 @@ on:
       - 'alpine/**'
 jobs:
   multi:
-    runs-on: ubuntu-20.04
+    runs-on: [self-hosted]
     steps:
     - name: Checkout
       uses: actions/checkout@v2
